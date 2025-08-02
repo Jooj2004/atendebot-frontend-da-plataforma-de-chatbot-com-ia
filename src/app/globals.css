@@ -10,7 +10,13 @@
   }
 }
 .bounce {
+  animation: Bounce 5s ease-in-out infinite;
+}
+.bounce2 {
   animation: Bounce 3s ease-in-out infinite;
+}
+.bounce3 {
+  animation: Bounce 4s ease-in-out infinite;
 }
 
 @custom-variant dark (&:is(.dark *));
