@@ -1,8 +1,11 @@
+import Image from "next/image"
+import Link from "next/link"
+
 export const Logo = () => {
     return(
-        <>
-          <img src="assets/logo.png" alt="AtendeBot" className="h-full bg-white rounded-md" />
+        <Link href={'/'} className="flex active:underline active:text-white">
+          <Image src="/assets/logo.png" alt="AtendeBot" width={25} height={25} className="bg-white rounded-md" />
           <p className="text-white font-bold ml-1.5 text-xl">AtendeBot</p>
-        </>
+        </Link>
     )
 }

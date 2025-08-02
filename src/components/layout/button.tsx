@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 type Props = {
     type: string
 }
@@ -11,10 +13,10 @@ export const Button = ({type}: Props) => {
                             }`
         }>
             {type === '1' &&
-                'Cadastre-se'
+                <Link href="/auth/signin">Cadastre-se</Link>
             }
             {type === '2' &&
-                'Saiba mais'
+                <Link href="/about">Saiba-mais</Link>
             }
         </button>
     )

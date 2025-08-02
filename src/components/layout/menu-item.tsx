@@ -5,10 +5,10 @@ import { Button } from "./button"
 import Link from "next/link"
 
 export const MenuItem = () => {
-      const [active, setActive] = useState('Início')
+    const [active, setActive] = useState('')
       
-      const menuItems = ['Início', 'Sobre', 'Funcionalidades', 'Entrar']
-      const rotas = ['/', 'about', 'features', 'login']
+    const menuItems = ['Início', 'Sobre', 'Funcionalidades', 'Entrar']
+    const rotas = ['/', 'about', 'features', '/auth/lognin']
 
     return(
         <ul className="flex sm:items-center sm:flex-row sm:text-sm md:gap-9 font-semibold flex-col h-full text-white text-xl gap-4">

@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "../ui/sheet"
-import { Logo } from "./logo"
+import { Logo } from "@/components/layout/logo"
 import { MenuItem } from "./menu-item"
 
 export const Header = () => {
