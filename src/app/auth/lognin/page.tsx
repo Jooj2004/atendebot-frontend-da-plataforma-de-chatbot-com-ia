@@ -19,7 +19,7 @@ const Lognin = () => {
                 <CardTitle className="flex gap-1">Login <Image alt="logo" src={"/assets/logo.png"} width={20} height={20}/> </CardTitle>
                 <CardDescription className="hidden sm:block">Se ainda não tem uma conta, cadastre-se.</CardDescription>
                 <CardAction>
-                    <Button variant={"link"}><Link href={'/auth/signin'}>Cadastre-se</Link></Button>
+                    <Button variant={"link"}><Link href={'/auth/signup'}>Cadastre-se</Link></Button>
                 </CardAction>
             </CardHeader>
             <form onSubmit={handleSubmit}>

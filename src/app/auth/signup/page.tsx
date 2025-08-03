@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import React from "react"
 
-const Signin = () => {
+const Signup = () => {
     
     const handleSubmit = (event:React.FormEvent) => {
         event.preventDefault()
@@ -90,4 +90,4 @@ const Signin = () => {
     )
 }
 
-export default Signin
+export default Signup

@@ -10,7 +10,6 @@ export const Body = () => {
       transition={{ duration: 0.5 }}
       className="w-[80%] mx-auto flex flex-col sm:flex-row"
     >
-      {/* Text Content */}
       <motion.div 
         className="mb-2 sm:flex-1"
         initial={{ x: -20, opacity: 0 }}
@@ -46,7 +45,6 @@ export const Body = () => {
         </motion.div>
       </motion.div>
 
-      {/* Chat Bubble Section */}
       <motion.div 
         className="flex w-full h-[190px] sm:h-[250px] lg:h-[280px] justify-end py-5"
         initial={{ x: 20, opacity: 0 }}

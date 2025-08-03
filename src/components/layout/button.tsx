@@ -13,7 +13,7 @@ export const Button = ({type}: Props) => {
                             }`
         }>
             {type === '1' &&
-                <Link href="/auth/signin">Cadastre-se</Link>
+                <Link href="/auth/signup">Cadastre-se</Link>
             }
             {type === '2' &&
                 <Link href="/about">Saiba-mais</Link>
