@@ -89,7 +89,6 @@ const Features = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#2825eb] via-[#1915eb] to-[#5403d6] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Cabeçalho */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -109,7 +108,7 @@ const Features = () => {
             >
               <Zap className="w-8 h-8 text-yellow-200" />
             </motion.div>
-            <h2 className="text-2xl sm:text-2xl sm:text-4xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
               Funcionalidades do AtendeBot
             </h2>
           </motion.div>
@@ -123,7 +122,6 @@ const Features = () => {
           </motion.p>
         </motion.div>
 
-        {/* Grid de funcionalidades */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0 }}
@@ -158,7 +156,6 @@ const Features = () => {
           ))}
         </motion.div>
 
-        {/* Seção de Benefícios */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -187,7 +184,6 @@ const Features = () => {
           </div>
         </motion.div>
 
-        {/* Tecnologias utilizadas */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -211,7 +207,6 @@ const Features = () => {
           </div>
         </motion.div>
 
-        {/* Seção Informativa */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

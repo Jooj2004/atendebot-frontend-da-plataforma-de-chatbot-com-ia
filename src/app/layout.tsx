@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
+import { Providers } from "@/utils/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,10 +33,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`py-3 px-8 min-h-screen bg-gradient-to-br from-[#2825eb] via-[#1915eb] to-[#5403d6] ${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
