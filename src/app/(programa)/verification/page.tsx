@@ -2,9 +2,11 @@
 
 import { useCompanyStore } from "@/store/company"
 import { useTokenStore } from "@/store/token"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-const Deshboard = () => {
+const Verification = () => {
+    const router = useRouter()
     const token = useTokenStore()
     const company = useCompanyStore()
 
@@ -12,6 +14,7 @@ const Deshboard = () => {
         if(token.token != null ){
             //Tem token. checar se é valido e vai para o programa
         }else{
+            if(company.company?.verification === false) router.push('/verification/email')
             //Verifica se a empresa esta verificada, no primeiro acesso não vai estar
             //Vai para a pagina de validar email
         }
@@ -27,4 +30,4 @@ const Deshboard = () => {
     )
 }
 
-export default Deshboard
+export default Verification

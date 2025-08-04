@@ -60,7 +60,7 @@ const Lognin = () => {
 
         const { token } = res.data
         setToken(token)
-        router.push("/deshboard")
+        router.push("/verification")
     } catch (err: any) {
         console.error("Erro no login:", err)
         alert("Erro: " + (err.response?.data?.message || err.message || "erro desconhecido"))

@@ -71,7 +71,7 @@ const Signup = () => {
                     }
                     if(res.data.newCompany){
                         setCompany(res.data.newCompany)
-                        router.push("/deshboard")
+                        router.push("/verification")
                     }
                 }catch (err: any) {
                     const status = err.response?.status
