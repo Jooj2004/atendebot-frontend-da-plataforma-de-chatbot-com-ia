@@ -17,9 +17,7 @@ export const useTokenStore = create<Store>((set) => ({
   },
   clearToken: () => set({token: null}),
   initializeToken: () => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('token') || ''
-      set({ token: stored })
-    }
+    const stored = localStorage.getItem('token')
+    set({ token: stored })
   }
 }))

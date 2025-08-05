@@ -13,6 +13,7 @@ const Verification = () => {
     useEffect(()=> {
         if(token.token != null ){
             //Tem token. checar se é valido e vai para o programa
+            console.log('veri', token.token)
         }else{
             if(company.company?.verification === false) router.push('/verification/email')
             //Verifica se a empresa esta verificada, no primeiro acesso não vai estar

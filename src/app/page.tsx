@@ -6,21 +6,19 @@ import { useEffect } from "react"
 
 export default function Page () {
     const router = useRouter()
-    const token = useTokenStore((state) => state.token)
-    const initializeToken = useTokenStore((state) => state.initializeToken)
+    const token = useTokenStore()
     
     useEffect(() => {
-        initializeToken()
-    }, [initializeToken])
+        token.initializeToken()
+    }, [])
 
     useEffect(() => {
-        if (token === null) return
-        if (token) {
-            router.push('/deshboard')
-        } else {
+        if (token.token === null){
             router.push('/home')
+        }else{
+            router.push('/verification')
         }
-    }, [token, router])
+    }, [token])
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-indigo-900 text-white">
