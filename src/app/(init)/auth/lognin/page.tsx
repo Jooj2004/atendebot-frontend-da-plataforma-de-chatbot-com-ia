@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useCompanyStore } from "@/store/company"
 import { useTokenStore } from "@/store/token"
 import { req } from "@/utils/axios"
 import Image from "next/image"
@@ -26,6 +27,7 @@ const vazio: ErrorLogin = {
 const Lognin = () => {
   const router = useRouter()
   const {setToken} = useTokenStore()
+  const company = useCompanyStore()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -57,9 +59,9 @@ const Lognin = () => {
                 return
             }
         }
-
         const { token } = res.data
         setToken(token)
+        company.setCompany(res.data.company)
         router.push("/verification")
     } catch (err: any) {
         console.error("Erro no login:", err)
