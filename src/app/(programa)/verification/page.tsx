@@ -12,6 +12,7 @@ const Verification = () => {
 
     useEffect(()=> {
         if(token.token != null ){
+            localStorage.removeItem('token')
             //Tem token. checar se é valido e vai para o programa
         }else{
             if(company.company?.verification === false) router.push('/verification/email')
@@ -21,6 +22,7 @@ const Verification = () => {
     }, [])
 
     console.log(company.company)
+    token.clearToken()
     
     return(
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-indigo-900 text-white">
