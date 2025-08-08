@@ -3,12 +3,14 @@ import { motion } from "framer-motion";
 import { Logo } from "@/components/layout/logo"
 import { Button } from "@/components/ui/button"
 import { useCompanyStore } from "@/store/company"
-import { useRouter } from "next/navigation"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const EmailVerify = () => {
     const router = useRouter()
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id')
 
     const[codOTP, setCodOTP] = useState('')
 

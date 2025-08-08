@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { serverON } from "@/services/auth"
 import { useCompanyStore } from "@/store/company"
 import { req } from "@/utils/axios"
 import Image from "next/image"
@@ -44,6 +45,13 @@ const Signup = () => {
     
     const handleSubmit = async (event:React.FormEvent) => {
         event.preventDefault()
+        const server = await serverON()
+        if(!server){
+            setError({
+                ...vazio,
+                error: "Servidor OFFLINE. Tente mais tarde"
+            })
+        }
             if(password === confPass){
                 try{
                     const res = await req.post('/auth/signup', {
