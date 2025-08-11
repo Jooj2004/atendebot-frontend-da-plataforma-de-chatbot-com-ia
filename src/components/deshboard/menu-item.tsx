@@ -1,4 +1,8 @@
+"use client"
+
 import { Activity, LayoutDashboard, MessageSquare, Settings, TrendingUp } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 type Props = {
     text:string
@@ -8,9 +12,17 @@ type Props = {
 }
 
 export const MenuItem = ({text, item, active, setActive}:Props) => {
+    const router = useRouter()
+
+    useEffect(() => {
+        if(active === 0) router.push('/deshboard')
+    }, [active])
+
 
     const handleClick = () => {
         setActive(item)
+        if(item === 0) router.push('/deshboard')
+        if(item === 1) router.push('/faqs')
     }
 
     return(
@@ -22,31 +34,31 @@ export const MenuItem = ({text, item, active, setActive}:Props) => {
         >
             {item === 0 &&
                 <>
-                    <LayoutDashboard/>
+                    <LayoutDashboard className="h-5 aspect-square"/>
                     <p className="hidden sm:block">{text}</p>
                 </>
             }
             {item === 1 &&
                 <>
-                    <MessageSquare/>
+                    <MessageSquare className="h-5 aspect-square"/>
                     <p className="hidden sm:block">{text}</p>
                 </>
             }
             {item === 2 &&
                 <>
-                    <TrendingUp/>
+                    <TrendingUp className="h-5 aspect-square"/>
                     <p className="hidden sm:block">{text}</p>
                 </>
             }
             {item === 3 &&
                 <>
-                    <Activity/>
+                    <Activity className="h-5 aspect-square"/>
                     <p className="hidden sm:block">{text}</p>
                 </>
             }
             {item === 4 &&
                 <>
-                    <Settings/>
+                    <Settings className="h-5 aspect-square"/>
                     <p className="hidden sm:block">{text}</p>
                 </>
             } 

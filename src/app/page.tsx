@@ -16,16 +16,15 @@ export default function Page () {
     }, [])
 
     useEffect(() => {
+        setTimeout(()=> {
+            router.refresh()
+        }, 5000)
         if (token.token === null){
             router.push('/home')
         }else{
             router.push('/verification')
         }
     }, [token.token])
-
-    setTimeout(()=> {
-        router.refresh()
-    }, 5000)
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-indigo-900 text-white">

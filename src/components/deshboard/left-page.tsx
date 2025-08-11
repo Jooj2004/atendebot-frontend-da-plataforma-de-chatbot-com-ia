@@ -8,11 +8,7 @@ import { useCompanyStore } from "@/store/company"
 const menu = ['Dashboard', 'FAQs', 'Análises', 'Atividades', 'Ajustes']
 
 export const LeftPage = () => {
-    const company = useCompanyStore()
-
-    useEffect(() => {
-        company.initializeCompany()
-    }, [])
+    const {company} = useCompanyStore()
 
     const [active, setActive] = useState<number>(0)
 
@@ -28,9 +24,9 @@ export const LeftPage = () => {
             </div>
             <footer className="py-5 flex gap-2 items-center min-w-0">
                 <div className="w-14 aspect-square rounded-full bg-blue-100 flex-shrink-0 flex items-center justify-center">
-                    <p className="text-4xl text-cyan-950">{company.company?.name[0]}</p>
+                    <p className="text-4xl text-cyan-950">{company?.name[0]}</p>
                 </div>
-                <p className="hidden sm:block text-cyan-950 truncate max-w-xs">{company.company?.name}</p>
+                <p className="hidden sm:block text-cyan-950 truncate max-w-xs">{company?.name}</p>
             </footer>
         </div>
     )

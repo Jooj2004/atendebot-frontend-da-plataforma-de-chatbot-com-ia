@@ -10,6 +10,7 @@ export const MenuItem = () => {
     const menuItems = ['Início', 'Sobre', 'Funcionalidades', 'Entrar']
     const rotas = ['/home', 'about', 'features', '/auth/lognin']
 
+
     return(
         <ul className="flex sm:items-center sm:flex-row sm:text-sm md:gap-9 font-semibold flex-col h-full text-white text-xl gap-4">
             {menuItems.map((item, index) => (
