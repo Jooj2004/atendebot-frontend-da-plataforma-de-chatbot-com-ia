@@ -51,6 +51,7 @@ const Signup = () => {
                 ...vazio,
                 error: "Servidor OFFLINE. Tente mais tarde"
             })
+            return
         }
             if(password === confPass){
                 try{

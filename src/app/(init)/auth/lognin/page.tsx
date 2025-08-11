@@ -42,6 +42,7 @@ const Lognin = () => {
         ...vazio,
         error: "Servidor OFFLINE. Tente mais tarde"
       })
+      return
     }
     try {
       const res = await req.post("/auth/signin", {
@@ -50,25 +51,24 @@ const Lognin = () => {
       })
 
       if (res.data.error) {
-            const err = res.data.error
+          const err = res.data.error
 
-            if (typeof err === "string") {
-                setError({
-                ...vazio,
-                error: err
-                })
-                return
-            }
-            else if (typeof err === "object") {
-                setError({
-                ...vazio,
-                ...err
-                })
-                return
-            }
+          if (typeof err === "string") {
+              setError({
+              ...vazio,
+              error: err
+              })
+              return
+          }
+          else if (typeof err === "object") {
+              setError({
+              ...vazio,
+              ...err
+              })
+              return
+          }
         }
-        const { token } = res.data
-        setToken(token)
+        setToken(res.data.token)
         company.setCompany(res.data.company)
         router.push("/verification")
     } catch (err: any) {

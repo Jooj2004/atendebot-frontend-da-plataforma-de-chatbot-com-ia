@@ -1,3 +1,4 @@
+import { LeftPage } from "@/components/deshboard/left-page";
 import "../globals.css"
 
 export default function DeshboardLayout({
@@ -6,7 +7,8 @@ export default function DeshboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex">
+      <LeftPage />
       {children}
     </div>
   )

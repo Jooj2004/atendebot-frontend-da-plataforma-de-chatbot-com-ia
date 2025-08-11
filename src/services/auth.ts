@@ -1,3 +1,4 @@
+import { Company } from "@/types/company"
 import { req } from "@/utils/axios"
 
 export const serverON = async () => {
@@ -20,4 +21,24 @@ export const sendEmail = async (companyId: string) => {
     }catch{
         return null
     }
+}
+
+export const verifyOTP = async (id: string, code:string) => {
+    try{
+        const res = await req.post('auth/useotp', {
+            id,
+            code
+        })
+        if(res.data.token && res.data.token){
+            const data:{token: string, company:Company} = {
+                token: res.data.token,
+                company: res.data.company
+            }
+            return data
+        }
+        if(res.data.error) return res.data.error as string
+    }catch{
+        return null
+    }
+    return null
 }

@@ -4,11 +4,23 @@ import { create } from "zustand"
 type CompanyStore = {
   company: Company | null
   setCompany: (company: Company) => void
+  initializeCompany: () => void
   clearCompany: () => void
 }
 
 export const useCompanyStore = create<CompanyStore>((set) => ({
   company: null,
-  setCompany: (company) => set({ company }),
+  setCompany: (company) => {
+    if (typeof window !== 'undefined' && company) {
+      const companyString = JSON.stringify(company)
+      localStorage.setItem('company', companyString)
+    }
+    set({ company })
+  },
   clearCompany: () => set({ company: null }),
+  initializeCompany: () => {
+    const stored = localStorage.getItem('company')
+    const company = JSON.parse(stored as string) || null
+    set({ company })
+  }
 }))
