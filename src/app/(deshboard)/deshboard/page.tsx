@@ -26,14 +26,22 @@ const Deshboard = () => {
     useEffect(()=>{
         const status = async () => {
             if(inter.data){
+                const now = new Date()
+                const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000)
+
                 let totQ = inter.data.map(e => e.question)
                 let totR = inter.data.map(e => e.botAnswer)
-                
+
+                const activeChats = inter.data.filter(e => {
+                    const createdAt = new Date(e.createAt)
+                    return createdAt > fiveMinutesAgo
+                }).length
 
                 await setStats(e => ({
                     ...e,
                     totalMessage: String(totQ.length + totR.length),
-                    questions: String(totR.length)
+                    questions: String(totR.length),
+                    chats: String(activeChats)
                 }))
             }
         }
@@ -50,7 +58,7 @@ const Deshboard = () => {
             <div>
                 <p className="p-2 text-xs text-cyan-950 border-1 border-b-gray-900/50 rounded-md bg-white"> {`${process.env.NEXT_PUBLIC_SERVER_URL}/chat/new/${company.company?.id}`} </p>
             </div>
-            <section className="p-2 gap-2 sm:flex">
+            <section className="p-2 flex flex-col gap-2 sm:flex-row">
                 <ItemPage 
                     Icon={Mail}
                     title="Total de menssagens"
@@ -60,6 +68,16 @@ const Deshboard = () => {
                     Icon={MessageSquare}
                     title="Perguntas respondidas"
                     item={stats.questions}
+                />
+                <ItemPage 
+                    Icon={MessageCircle}
+                    title="Chat ativos"
+                    item={stats.chats}
+                />
+                <ItemPage
+                    Icon={CheckCircle}
+                    title="Chatbot"
+                    item={stats.server}
                 />
             </section>
         </div>
