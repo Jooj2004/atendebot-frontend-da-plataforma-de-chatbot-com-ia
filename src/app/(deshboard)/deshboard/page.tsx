@@ -28,13 +28,13 @@ const Deshboard = () => {
             if(inter.data){
                 let totQ = inter.data.map(e => e.question)
                 let totR = inter.data.map(e => e.botAnswer)
+                
 
                 await setStats(e => ({
                     ...e,
                     totalMessage: String(totQ.length + totR.length),
                     questions: String(totR.length)
                 }))
-
             }
         }
         status()
