@@ -22,6 +22,19 @@ const Verification = () => {
         Exec = true
         const run = async () => {
             if(token.token != null ){
+                if(company.company?.verification === false){
+                    const email = await sendEmail(company.company.id)
+                    if(email != null || email != undefined){
+                        const data = {
+                            email: company.company.email,
+                            idOTP: email,
+                            companyId: company.company.id,
+                        }
+                        const objStr = encodeURIComponent(JSON.stringify(data))
+                        router.push(`/verification/email?info=${objStr}`)
+                        return
+                    }
+                }
                 try{
                     const res = await req.get('/private',{
                     headers:{
@@ -35,6 +48,10 @@ const Verification = () => {
                     router.push('/deshboard') 
                 }catch(err){
                     setError('Sua sessão foi encerrada por inatividade ou por motivos de segurança. Por favor, faça login novamente para continuar usando o sistema.')
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('company')
+                    company.clearCompany()
+                    token.clearToken()
                     setTimeout(()=>{
                         router.push('/auth/lognin')
                     }, 2000)
@@ -52,7 +69,6 @@ const Verification = () => {
                         router.push(`/verification/email?info=${objStr}`)
                     }
                 }
-                router.push('/home')
             }
 
         }
