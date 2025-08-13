@@ -21,15 +21,24 @@ const Deshboard = () => {
         server: 'Online'
     })
 
+    const inter = useInteractions(token.token as string)
+
     useEffect(()=>{
         const status = async () => {
-            const inter = useInteractions(token.token as string)
-            //Fazer o preenchimento dos status
+            if(inter.data){
+                let totQ = inter.data.map(e => e.question)
+                let totR = inter.data.map(e => e.botAnswer)
+
+                await setStats(e => ({
+                    ...e,
+                    totalMessage: String(totQ.length + totR.length),
+                    questions: String(totR.length)
+                }))
+
+            }
         }
         status()
-    }, [])
-
-    const inter = useInteractions(token.token as string)
+    }, [inter.data])
     
 
     return(
@@ -45,12 +54,12 @@ const Deshboard = () => {
                 <ItemPage 
                     Icon={Mail}
                     title="Total de menssagens"
-                    item={'0'}
+                    item={stats.totalMessage}
                 />
                 <ItemPage 
                     Icon={MessageSquare}
                     title="Perguntas respondidas"
-                    item={'0'}
+                    item={stats.questions}
                 />
             </section>
         </div>
