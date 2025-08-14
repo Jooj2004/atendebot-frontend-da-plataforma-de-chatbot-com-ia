@@ -50,7 +50,7 @@ const Deshboard = () => {
     
 
     return(
-        <div className="flex-1 py-1 px-2 bg-secondary">
+        <div className="flex-1 ml-[25%] py-1 px-2 bg-secondary">
             <div>
                 <h1 className="text-lg mb-1 font-semibold">Deshboard</h1>
                 <p className="text-[7px] text-cyan-700 mb-2">Resumo das atividades e informações principais</p>
@@ -58,7 +58,7 @@ const Deshboard = () => {
             <div>
                 <p className="p-2 text-xs text-cyan-950 border-1 border-b-gray-900/50 rounded-md bg-white"> {`${process.env.NEXT_PUBLIC_SERVER_URL}/chat/new/${company.company?.id}`} </p>
             </div>
-            <section className="p-2 flex flex-col gap-2 sm:flex-row">
+            <section className="p-2 flex flex-col gap-2 sm:flex-row justify-around">
                 <ItemPage 
                     Icon={Mail}
                     title="Total de menssagens"
@@ -79,6 +79,17 @@ const Deshboard = () => {
                     title="Chatbot"
                     item={stats.server}
                 />
+            </section>
+            <section className="flex items-center flex-col sm:flex-row w-full mx-auto gap-2">
+
+                <div className=" w-56 h-56 shadow-md sm:w-2/3 border-1 border-cyan-950/50 rounded-md">
+                    
+                </div>
+
+                <div className="border-1 shadow-md rounded-md border-cyan-950/50 w-56 h-56 sm:flex-1">
+
+                </div>
+                
             </section>
         </div>
     )
