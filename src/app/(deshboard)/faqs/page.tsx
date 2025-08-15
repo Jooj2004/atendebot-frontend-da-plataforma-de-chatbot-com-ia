@@ -1,6 +1,6 @@
 const Faqs = () => {
     return(
-        <div>
+        <div className="flex-1 ml-[26%] bg-secondary">
             faqs
         </div>
     )

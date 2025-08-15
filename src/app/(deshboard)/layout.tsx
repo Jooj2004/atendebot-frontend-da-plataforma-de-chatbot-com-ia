@@ -7,7 +7,7 @@ export default function DeshboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
+    <div className="flex bg-secondary">
       <LeftPage />
       {children}
     </div>

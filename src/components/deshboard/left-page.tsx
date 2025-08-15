@@ -13,7 +13,7 @@ export const LeftPage = () => {
     const [active, setActive] = useState<number>(0)
 
     return(
-        <div className="w-1/4 p-2 h-screen border fixed border-r-gray-800/50 flex flex-col justify-between">
+        <div className="w-1/4 p-2 h-screen border fixed border-r-gray-800/50 flex flex-col justify-between bg-white">
             <div>
                 <LogoDeashboard />
                 <div className="flex flex-col">
