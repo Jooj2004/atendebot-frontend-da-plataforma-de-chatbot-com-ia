@@ -8,8 +8,17 @@ type Props = {
 }
 
 export const Providers = ({children}: Props) => {
-    const queryClient = new QueryClient()
-    return(
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 10 * 60 * 1000,
+                refetchOnWindowFocus: false,
+                retry: 1
+            },
+        },
+    })
+
+    return (
         <QueryClientProvider client={queryClient}>
             {children}
         </QueryClientProvider>
