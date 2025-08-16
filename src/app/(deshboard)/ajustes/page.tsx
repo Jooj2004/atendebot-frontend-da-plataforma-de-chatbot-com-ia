@@ -1,9 +1,9 @@
-const Faqs = () => {
+const Ajustes = () => {
     return(
         <div className="flex-1 ml-[24%] bg-secondary">
-            faqs
+            ajustes
         </div>
     )
 }
 
-export default Faqs
+export default Ajustes

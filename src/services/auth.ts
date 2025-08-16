@@ -5,6 +5,7 @@ export const serverON = async () => {
     try{
         const server = await req.get('/ping')
         if(server.data.pong) return true
+        return false
     }catch{
         return false
     }

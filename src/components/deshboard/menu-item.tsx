@@ -24,6 +24,8 @@ export const MenuItem = ({text, item, active, setActive}:Props) => {
         if(item === 0) router.push('/deshboard')
         if(item === 1) router.push('/faqs')
         if(item === 2) router.push('/analises')
+        if(item === 3) router.push('/atividades')
+        if(item === 4) router.push('/ajustes')
     }
 
     return(

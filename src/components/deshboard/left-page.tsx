@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { LogoDeashboard } from "./logo"
 import { MenuItem } from "./menu-item"
 import { useCompanyStore } from "@/store/company"
@@ -13,7 +13,7 @@ export const LeftPage = () => {
     const [active, setActive] = useState<number>(0)
 
     return(
-        <div className="w-1/4 p-2 h-screen border fixed border-r-gray-800/50 flex flex-col justify-between bg-white">
+        <div className="w-[23%] p-2 h-screen border fixed border-r-gray-800/50 flex flex-col justify-between bg-white">
             <div>
                 <LogoDeashboard />
                 <div className="flex flex-col">
