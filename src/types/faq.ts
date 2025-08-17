@@ -4,5 +4,6 @@ export type Faq = {
     answer: string,
     companyId?: string,
     createAt?: string,
-    updateA?: string
+    updateA?: string,
+    error?: string
 }

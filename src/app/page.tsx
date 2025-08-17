@@ -18,7 +18,7 @@ export default function Page () {
     useEffect(() => {
         setTimeout(()=> {
             router.refresh()
-        }, 5000)
+        }, 10000)
         if (token.token === null){
             router.push('/home')
         }else{

@@ -21,6 +21,15 @@ export const getFaq = async (token:string, id:string):Promise<Faq> => {
     return res.data.faq
 }
 
+export const addFaq = async (token:string, data:Faq) => {
+    const res = await req.post('/faq/create', data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return res
+}
+
 export const getInteractions = async (token:string): Promise<Inter[]> => {
     const res = await req.get('/company/interaction',{
         headers:{
