@@ -2,6 +2,7 @@
 
 import { EditFaqs } from "@/components/faqs/edit-faqs"
 import { TableFaqs } from "@/components/faqs/table_faqs"
+import FaqsSkeleton from "@/components/skeleton/faqs"
 import { Button } from "@/components/ui/button"
 import { useTokenStore } from "@/store/token"
 import { req } from "@/utils/axios"
@@ -38,7 +39,7 @@ const Faqs = () => {
     return(
         <>
             {faqs.isLoading &&
-                <>Carregando...</>
+                <FaqsSkeleton/>
             }
             {!faqs.isLoading &&
                 <div className="flex-1 ml-[24%] bg-secondary px-1">

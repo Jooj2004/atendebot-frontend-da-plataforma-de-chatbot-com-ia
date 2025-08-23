@@ -4,4 +4,5 @@ export type Inter = {
     botAnswer: string,
     companyId: string,
     createAt: string,
+    borOrFaq: number
 }
