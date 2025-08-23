@@ -42,7 +42,7 @@ const Faqs = () => {
                 <FaqsSkeleton/>
             }
             {!faqs.isLoading &&
-                <div className="flex-1 ml-[24%] bg-secondary px-1">
+                <div className="flex-1 ml-[21%] bg-secondary px-1">
                     <div>
                         <h1 className="text-lg mb-1 font-semibold">FAQs</h1>
                         <p className="text-[7px] md:text-[10px] text-cyan-700 mb-2">Cadastre as perguntas mais frequentes dos clientes. O chatbot usará essas informações para responder automaticamente. Dica: Priorize clareza e relevância!</p>

@@ -25,9 +25,10 @@ export const Frequente = ({ date }: { date: Inter[] }) => {
     const getWidth = (count: number, maxCount: number) => {
         return `${(count / maxCount) * 100}%`
     }
+    console.log(dataArray)
 
     return (
-        <div className="bg-white border rounded-md border-cyan-950/50 shadow-md p-1 mx-auto w-60 sm:w-2/3">
+        <div className="bg-white border rounded-md border-cyan-950/50 shadow-md p-1 mx-auto w-60 h-40 sm:w-2/3">
             <div className="p-1">
             <h2 className="font-semibold text-sm md:text-md mb-3">Perguntas Frequentes</h2>
             {top5.map((e, index) => (
