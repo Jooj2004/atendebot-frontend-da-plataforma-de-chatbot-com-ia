@@ -39,7 +39,7 @@ export const Chart = ({ date }: { date: Inter[] }) => {
   } satisfies ChartConfig
 
   return (
-    <ChartContainer config={chartConfig} className="w-60 h-60 sm:w-full">
+    <ChartContainer config={chartConfig} className="w-60 h-60 sm:w-full mx-auto">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={interacoesPorDia}>
           <CartesianGrid strokeDasharray="3 3" />
