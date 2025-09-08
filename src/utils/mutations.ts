@@ -1,4 +1,4 @@
-import { addFaq } from "@/api/api"
+import { addFaq} from "@/api/api"
 import { Faq } from "@/types/faq"
 import { useMutation } from "@tanstack/react-query"
 

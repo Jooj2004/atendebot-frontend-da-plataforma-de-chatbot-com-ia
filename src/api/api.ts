@@ -1,4 +1,4 @@
-import { useTokenStore } from "@/store/token";
+import { UpdateCompany } from "@/types/company";
 import { Faq } from "@/types/faq";
 import { Inter } from "@/types/inter";
 import { req } from "@/utils/axios";
