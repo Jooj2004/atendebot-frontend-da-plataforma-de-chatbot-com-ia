@@ -17,7 +17,10 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
     }
     set({ company })
   },
-  clearCompany: () => set({ company: null }),
+  clearCompany: () => {
+    localStorage.removeItem('company')
+    set({ company: null })
+  },
   initializeCompany: () => {
     const stored = localStorage.getItem('company')
     const company = JSON.parse(stored as string) || null

@@ -223,7 +223,7 @@ const Signup = () => {
                                 onChange={(e)=>setConfPass(e.target.value)}
                                 value={confPass}
                             />
-                            {password != confPass &&
+                            {confPass && password != confPass &&
                                 <p className="text-red-500 text-xs">As senhas não coisidem. Tente novamente</p>
                             }
                         </div>

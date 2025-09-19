@@ -74,8 +74,6 @@ const Verification = () => {
         }
         run()
     }, [])
-
-    console.log(company.company)
     
     return(
         <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-indigo-900 text-white">

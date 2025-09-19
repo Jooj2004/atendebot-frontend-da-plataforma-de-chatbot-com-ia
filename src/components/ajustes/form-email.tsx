@@ -12,7 +12,7 @@ export const Formemail = () => {
   const { company } = useCompanyStore()
   const { push } = useRouter()
 
-  const actualEmail = company?.email as string
+  const actualEmail = company?.email as string ?? ""
   const [newEmail, setNewEmail] = useState<string>("")
 
   const [update, setUpdate] = useState(false)
@@ -70,7 +70,7 @@ export const Formemail = () => {
   }
 
   return (
-    <div className="mb-6">
+    <div>
       <form
         onSubmit={handleSubmit}
         className="border px-1 py-2 md:px-2 md:py-3 rounded-md max-w-2xl mx-auto border-cyan-950/20 flex flex-col gap-3"

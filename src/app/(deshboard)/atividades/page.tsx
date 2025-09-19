@@ -62,9 +62,16 @@ const Atividades = () => {
             {inter.isLoading && <AtividadesSkeleton />}
 
             {!inter.isLoading && !hasData && (
-                <div className="flex flex-col items-center justify-center mt-10 p-4 bg-white border border-cyan-200 rounded-md shadow-md">
-                    <p className="text-cyan-700 font-semibold mb-2">Nenhum dado disponível.</p>
-                    <p className="text-gray-500 text-sm">Não foram encontradas interações para exibir.</p>
+                <div className="ml-[21%] w-full">
+                    <h1 className="text-lg mb-1 font-semibold">Atividades</h1>
+                    <p className="text-[7px] md:text-[10px] text-cyan-700 mb-2">
+                        Histórico detalhado das interações do chatbot. Veja perguntas, respostas e filtre por período para acompanhar o uso.
+                    </p>
+                    
+                    <div className="flex flex-col items-center justify-center mt-10 p-4 bg-white border border-cyan-200 rounded-md shadow-md">
+                        <p className="text-cyan-700 font-semibold mb-2">Nenhum dado disponível.</p>
+                        <p className="text-gray-500 text-sm">Não foram encontradas interações para exibir.</p>
+                    </div>
                 </div>
             )}
 

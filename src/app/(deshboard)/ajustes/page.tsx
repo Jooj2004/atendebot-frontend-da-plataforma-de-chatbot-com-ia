@@ -2,6 +2,7 @@
 
 import { FormCompany } from "@/components/ajustes/form-company"
 import { Formemail } from "@/components/ajustes/form-email"
+import { FormLog } from "@/components/ajustes/form-log"
 import { FormPass } from "@/components/ajustes/form-pass"
 
 const Ajustes = () => {
@@ -15,6 +16,7 @@ const Ajustes = () => {
                 <FormCompany />
                 <FormPass />
                 <Formemail />
+                <FormLog />
             </div>
         </div>
     )
