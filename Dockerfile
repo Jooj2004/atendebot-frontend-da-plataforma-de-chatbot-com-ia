@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-ENV NEXT_PUBLIC_SERVER_URL=http://localhost:4000
+ENV NEXT_PUBLIC_SERVER_URL=https://atendebot-backend-da-plataforma-de.onrender.com
 
 RUN npm run build
 
