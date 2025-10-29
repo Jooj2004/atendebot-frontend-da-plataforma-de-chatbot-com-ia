@@ -2,14 +2,16 @@ import { Company } from "@/types/company"
 import { req } from "@/utils/axios"
 
 export const serverON = async () => {
-    try{
-        const server = await req.get('/ping')
-        if(server.data.pong) return true
-        return false
-    }catch{
-        return false
-    }
-}
+  try {
+    const server = await req.get('/ping');
+    console.log('Chamando:', process.env.NEXT_PUBLIC_SERVER_URL + '/ping');
+    if (server.data.pong) return true;
+    return false;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
 
 export const sendEmail = async (companyId: string) => {
     try{
