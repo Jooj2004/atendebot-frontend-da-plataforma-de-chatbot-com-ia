@@ -61,6 +61,18 @@ const Deshboard = () => {
         }
         status()
     }, [inter.data])
+
+    const link = `${process.env.NEXT_PUBLIC_MY_URL}/chatbot?id=${company.company?.id}`
+    const [cop, setCop] = useState(false)
+    const copiar = async () => {
+        try{
+            await navigator.clipboard.writeText(link)
+            setCop(true)
+            setTimeout(() => setCop(false), 10000)
+        } catch (err) {
+            alert("Erro ao copiar: " + err)
+        }
+    }
     
     return(
         <>
@@ -74,12 +86,20 @@ const Deshboard = () => {
                         <p className="text-[7px] md:text-[10px] text-cyan-700 mb-2">Resumo das atividades e informações principais</p>
                     </div>
                     <div>
-                        <p className="p-2 text-xs text-cyan-950 border-1 border-b-gray-900/50 rounded-md bg-white"> {`${process.env.NEXT_PUBLIC_SERVER_URL}/chatbot?id=${company.company?.id}`} </p>
+                        <p className="p-2 text-xs text-cyan-950 border-1 border-b-gray-900/50 rounded-md bg-white"> {link} </p>
+                        
                         <Button 
                             variant={"outline"} 
                             size={"sm"}
                             onClick={()=>router.push(`/chatbot?id=${company.company?.id}`)}
                         >Ir</Button>
+
+                        <Button
+                            variant={cop ?"secondary" :"outline"}
+                            size={"sm"}
+                            onClick={copiar}
+                        >{cop ?'Copiado!' :'Copiar'}</Button>
+
                         <p className="p-2 text-[8px] md:text-[10px] text-cyan-950">Olá! 😊 <br/>
                             O link acima é o endpoint do nosso chatbot. Para utilizá-lo, você deve enviar uma requisição HTTP com a sua pergunta no corpo (body) da requisição. O chatbot irá processar a sua mensagem e devolver a resposta automaticamente.
                             É uma maneira prática de integrar o chatbot diretamente ao seu site ou aplicação e obter respostas em tempo real! 🚀</p>
