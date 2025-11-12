@@ -15,17 +15,19 @@ const VerificationContent = () => {
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    const run = async () => {
-      try {
-        // Evita loop: só executa quando o store tiver carregado
-        if (!company.company) {
-          console.log("⏳ Aguardando company carregar...");
-          return;
-        }
+  console.log("🔄 useEffect rodou!");
+  console.log("🧩 Token:", token.token);
+  console.log("🏢 Company:", company.company);
 
-        // Evita rodar mais de uma vez
-        if (exec.current) return;
-        exec.current = true;
+  const run = async () => {
+    try {
+      if (!company.company) {
+        console.log("⏳ Aguardando company carregar...");
+        return;
+      }
+
+      if (exec.current) return;
+      exec.current = true;
 
         // Se existir token, tenta autenticar
         if (token.token) {
