@@ -15,53 +15,28 @@ const VerificationContent = () => {
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-  console.log("🔄 useEffect rodou!");
-  console.log("🧩 Token:", token.token);
-  console.log("🏢 Company:", company.company);
+    console.log("🔄 useEffect rodou!");
+    console.log("🧩 Token:", token.token);
+    console.log("🏢 Company:", company.company);
 
-  const run = async () => {
-    try {
-      if (!company.company) {
-        console.log("⏳ Aguardando company carregar...");
-        return;
-      }
+    const run = async () => {
+      try {
+        // Garante que o store carregou antes de seguir
+        if (!company.company || exec.current) return;
+        exec.current = true;
 
-      if (exec.current) return;
-      exec.current = true;
-
-        // Se existir token, tenta autenticar
-        if (token.token) {
-          if (company.company.verification === false) {
-            const email = await sendEmail(company.company.id);
-            if (email) {
-              const data = {
-                email: company.company.email,
-                idOTP: email,
-                companyId: company.company.id,
-              };
-              const objStr = encodeURIComponent(JSON.stringify(data));
-              router.push(`/verification/email?info=${objStr}`);
-              return;
-            }
-          }
-
-          // Valida token com backend
-          const res = await req.get("/private", {
-            headers: { Authorization: `Bearer ${token.token}` },
-          });
-
-          if (res.data?.error) {
-            router.push("/auth/lognin");
-            return;
-          }
-
-          router.push("/deshboard");
+        // Caso o usuário não tenha token
+        if (!token.token) {
+          console.warn("⚠️ Nenhum token encontrado, redirecionando para login...");
+          router.replace("/auth/login");
           return;
         }
 
-        // Se não houver token mas a conta ainda precisa verificar email
+        // Se empresa não verificada, envia o e-mail e redireciona
         if (company.company.verification === false) {
+          console.log("📨 Enviando e-mail de verificação...");
           const email = await sendEmail(company.company.id);
+
           if (email) {
             const data = {
               email: company.company.email,
@@ -69,22 +44,34 @@ const VerificationContent = () => {
               companyId: company.company.id,
             };
             const objStr = encodeURIComponent(JSON.stringify(data));
-            router.push(`/verification/email?info=${objStr}`);
+            router.replace(`/verification/email?info=${objStr}`);
             return;
           }
         }
+
+        // Valida o token com o backend
+        const res = await req.get("/private", {
+          headers: { Authorization: `Bearer ${token.token}` },
+        });
+
+        if (res.data?.error) {
+          console.warn("⚠️ Token inválido, redirecionando...");
+          router.replace("/auth/login");
+          return;
+        }
+
+        console.log("✅ Token válido, redirecionando para dashboard...");
+        router.replace("/dashboard");
       } catch (err) {
-        console.error("Erro na verificação:", err);
+        console.error("❌ Erro na verificação:", err);
         setError(
-          "Sua sessão foi encerrada por inatividade ou por motivos de segurança. Por favor, faça login novamente para continuar usando o sistema."
+          "Sua sessão expirou ou ocorreu um erro. Faça login novamente para continuar."
         );
         localStorage.removeItem("token");
         localStorage.removeItem("company");
         company.clearCompany();
         token.clearToken();
-        setTimeout(() => {
-          router.push("/auth/lognin");
-        }, 2000);
+        setTimeout(() => router.replace("/auth/login"), 2000);
       }
     };
 
