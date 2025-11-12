@@ -9,23 +9,29 @@ import { useRouter } from "next/navigation";
 
 const VerificationContent = () => {
   const exec = useRef(false);
-
   const router = useRouter();
   const token = useTokenStore();
   const company = useCompanyStore();
-
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    if (exec.current) return;
-    exec.current = true;
-
     const run = async () => {
       try {
+        // Evita loop: só executa quando o store tiver carregado
+        if (!company.company) {
+          console.log("⏳ Aguardando company carregar...");
+          return;
+        }
+
+        // Evita rodar mais de uma vez
+        if (exec.current) return;
+        exec.current = true;
+
+        // Se existir token, tenta autenticar
         if (token.token) {
-          if (company.company?.verification === false) {
+          if (company.company.verification === false) {
             const email = await sendEmail(company.company.id);
-            if (email != null && email != undefined) {
+            if (email) {
               const data = {
                 email: company.company.email,
                 idOTP: email,
@@ -37,13 +43,12 @@ const VerificationContent = () => {
             }
           }
 
+          // Valida token com backend
           const res = await req.get("/private", {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-            },
+            headers: { Authorization: `Bearer ${token.token}` },
           });
 
-          if (res.data.error) {
+          if (res.data?.error) {
             router.push("/auth/lognin");
             return;
           }
@@ -52,10 +57,10 @@ const VerificationContent = () => {
           return;
         }
 
-        // Caso não haja token
-        if (company.company?.verification === false) {
+        // Se não houver token mas a conta ainda precisa verificar email
+        if (company.company.verification === false) {
           const email = await sendEmail(company.company.id);
-          if (email != null && email != undefined) {
+          if (email) {
             const data = {
               email: company.company.email,
               idOTP: email,
@@ -82,8 +87,7 @@ const VerificationContent = () => {
     };
 
     run();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [company.company, token.token, router, company, token]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-indigo-900 text-white">
