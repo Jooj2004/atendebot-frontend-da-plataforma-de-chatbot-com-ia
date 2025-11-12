@@ -49,7 +49,7 @@ const VerificationContent = () => {
           const cached = sessionStorage.getItem(key);
           if (cached) {
             console.log("♻️ Já enviado nesta sessão — redirecionando com dados em cache.");
-            router.replace(`/verification/email?info=${encodeURIComponent(cached)}`);
+            router.push(`/verification/email?info=${encodeURIComponent(cached)}`);
             return;
           }
 
