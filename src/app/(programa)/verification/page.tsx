@@ -1,15 +1,14 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { sendEmail } from "@/services/auth";
 import { useCompanyStore } from "@/store/company";
 import { useTokenStore } from "@/store/token";
 import { req } from "@/utils/axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const VerificationContent = () => {
-  let Exec = false;
+  const exec = useRef(false);
 
   const router = useRouter();
   const token = useTokenStore();
@@ -18,50 +17,45 @@ const VerificationContent = () => {
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    if (Exec) return;
-    Exec = true;
+    if (exec.current) return;
+    exec.current = true;
+
     const run = async () => {
-      if (token.token != null) {
-        if (company.company?.verification === false) {
-          const email = await sendEmail(company.company.id);
-          if (email != null || email != undefined) {
-            const data = {
-              email: company.company.email,
-              idOTP: email,
-              companyId: company.company.id,
-            };
-            const objStr = encodeURIComponent(JSON.stringify(data));
-            router.push(`/verification/email?info=${objStr}`);
-            return;
+      try {
+        if (token.token) {
+          if (company.company?.verification === false) {
+            const email = await sendEmail(company.company.id);
+            if (email != null && email != undefined) {
+              const data = {
+                email: company.company.email,
+                idOTP: email,
+                companyId: company.company.id,
+              };
+              const objStr = encodeURIComponent(JSON.stringify(data));
+              router.push(`/verification/email?info=${objStr}`);
+              return;
+            }
           }
-        }
-        try {
+
           const res = await req.get("/private", {
             headers: {
               Authorization: `Bearer ${token.token}`,
             },
           });
+
           if (res.data.error) {
             router.push("/auth/lognin");
             return;
           }
+
           router.push("/deshboard");
-        } catch (err) {
-          setError(
-            "Sua sessão foi encerrada por inatividade ou por motivos de segurança. Por favor, faça login novamente para continuar usando o sistema."
-          );
-          localStorage.removeItem("token");
-          localStorage.removeItem("company");
-          company.clearCompany();
-          token.clearToken();
-          setTimeout(() => {
-            router.push("/auth/lognin");
-          }, 2000);
+          return;
         }
-      } else {
+
+        // Caso não haja token
         if (company.company?.verification === false) {
           const email = await sendEmail(company.company.id);
-          if (email != null || email != undefined) {
+          if (email != null && email != undefined) {
             const data = {
               email: company.company.email,
               idOTP: email,
@@ -69,11 +63,26 @@ const VerificationContent = () => {
             };
             const objStr = encodeURIComponent(JSON.stringify(data));
             router.push(`/verification/email?info=${objStr}`);
+            return;
           }
         }
+      } catch (err) {
+        console.error("Erro na verificação:", err);
+        setError(
+          "Sua sessão foi encerrada por inatividade ou por motivos de segurança. Por favor, faça login novamente para continuar usando o sistema."
+        );
+        localStorage.removeItem("token");
+        localStorage.removeItem("company");
+        company.clearCompany();
+        token.clearToken();
+        setTimeout(() => {
+          router.push("/auth/lognin");
+        }, 2000);
       }
     };
+
     run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -107,4 +116,3 @@ export default function Verification() {
       <VerificationContent />
     </Suspense>
   );
-}
