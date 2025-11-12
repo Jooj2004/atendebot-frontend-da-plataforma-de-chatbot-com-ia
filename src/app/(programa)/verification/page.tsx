@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { sendEmail } from "@/services/auth";
 import { useCompanyStore } from "@/store/company";
 import { useTokenStore } from "@/store/token";
@@ -21,61 +21,95 @@ const VerificationContent = () => {
 
     const run = async () => {
       try {
-        // Garante que o store carregou antes de seguir
-        if (!company.company || exec.current) return;
-        exec.current = true;
-
-        // Caso o usuário não tenha token
-        if (!token.token) {
-          console.warn("⚠️ Nenhum token encontrado, redirecionando para login...");
-          router.replace("/auth/login");
+        // Só segue quando tiver os dados da company
+        if (!company.company) {
+          console.log("⏳ Aguardando company carregar...");
           return;
         }
 
-        // Se empresa não verificada, envia o e-mail e redireciona
-        if (company.company.verification === false) {
-          console.log("📨 Enviando e-mail de verificação...");
-          const email = await sendEmail(company.company.id);
+        // Garante execução única por montagem/estado carregado
+        if (exec.current) {
+          console.log("⛔ Exec já rodou, abortando nova execução.");
+          return;
+        }
+        exec.current = true;
 
-          if (email) {
+        // Se não houver token, direciona para login (mantive rota original 'lognin' caso seu app use ela)
+        if (!token.token) {
+          console.warn("⚠️ Nenhum token encontrado — redirecionando para login...");
+          router.replace("/auth/lognin");
+          return;
+        }
+
+        // Se a empresa não estiver verificada -> enviar email UMA vez por sessão
+        if (company.company.verification === false) {
+          const key = `verification_sent_${company.company.id}`;
+
+          // Se já enviamos nesta sessão, apenas redireciona com os dados armazenados
+          const cached = sessionStorage.getItem(key);
+          if (cached) {
+            console.log("♻️ Já enviado nesta sessão — redirecionando com dados em cache.");
+            router.replace(`/verification/email?info=${encodeURIComponent(cached)}`);
+            return;
+          }
+
+          console.log("📨 Enviando e-mail de verificação...");
+          const emailId = await sendEmail(company.company.id);
+
+          // Se backend retornou id do OTP (ou similar), montamos dados e guardamos na sessão
+          if (emailId) {
             const data = {
               email: company.company.email,
-              idOTP: email,
+              idOTP: emailId,
               companyId: company.company.id,
             };
-            const objStr = encodeURIComponent(JSON.stringify(data));
-            router.replace(`/verification/email?info=${objStr}`);
+            const objStr = JSON.stringify(data);
+            sessionStorage.setItem(key, objStr);
+            router.replace(`/verification/email?info=${encodeURIComponent(objStr)}`);
+            return;
+          } else {
+            // Se não retornou, registra erro e não fica tentando em loop
+            console.warn("⚠️ sendEmail não retornou id. Não será re-tentado automaticamente.");
+            setError("Não foi possível enviar o e-mail de verificação. Tente novamente mais tarde.");
             return;
           }
         }
 
-        // Valida o token com o backend
+        // Se a empresa já estiver verificada, valida token no backend
+        console.log("🔐 Validando token no backend...");
         const res = await req.get("/private", {
           headers: { Authorization: `Bearer ${token.token}` },
         });
 
         if (res.data?.error) {
-          console.warn("⚠️ Token inválido, redirecionando...");
-          router.replace("/auth/login");
+          console.warn("⚠️ Token inválido — redirecionando para login...");
+          // limpar estado opcional
+          localStorage.removeItem("token");
+          localStorage.removeItem("company");
+          company.clearCompany();
+          token.clearToken();
+          router.replace("/auth/lognin");
           return;
         }
 
-        console.log("✅ Token válido, redirecionando para dashboard...");
-        router.replace("/dashboard");
+        console.log("✅ Token válido — indo para dashboard...");
+        router.replace("/deshboard");
       } catch (err) {
         console.error("❌ Erro na verificação:", err);
         setError(
           "Sua sessão expirou ou ocorreu um erro. Faça login novamente para continuar."
         );
+        // Limpeza e redirecionamento seguros
         localStorage.removeItem("token");
         localStorage.removeItem("company");
         company.clearCompany();
         token.clearToken();
-        setTimeout(() => router.replace("/auth/login"), 2000);
+        setTimeout(() => router.replace("/auth/lognin"), 2000);
       }
     };
 
     run();
+    // Dependências: reexecuta quando store mudar (p.ex. company carregou)
   }, [company.company, token.token, router, company, token]);
 
   return (
