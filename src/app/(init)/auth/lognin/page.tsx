@@ -27,23 +27,31 @@ const vazio: ErrorLogin = {
 
 const Lognin = () => {
   const router = useRouter()
-  const {setToken} = useTokenStore()
+  const { setToken } = useTokenStore()
   const company = useCompanyStore()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<ErrorLogin>(vazio)
+  const [loading, setLoading] = useState(false) // <--- NOVO
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    if (loading) return // evita múltiplos cliques
+    setLoading(true)
+    setError(vazio)
+
     const server = await serverON()
-    if(!server){
+    if (!server) {
       setError({
         ...vazio,
         error: "Servidor OFFLINE. Tente mais tarde"
       })
+      setLoading(false)
       return
     }
+
     try {
       const res = await req.post("/auth/signin", {
         email: email.toLowerCase(),
@@ -51,29 +59,26 @@ const Lognin = () => {
       })
 
       if (res.data.error) {
-          const err = res.data.error
+        const err = res.data.error
 
-          if (typeof err === "string") {
-              setError({
-              ...vazio,
-              error: err
-              })
-              return
-          }
-          else if (typeof err === "object") {
-              setError({
-              ...vazio,
-              ...err
-              })
-              return
-          }
+        if (typeof err === "string") {
+          setError({ ...vazio, error: err })
+        } else if (typeof err === "object") {
+          setError({ ...vazio, ...err })
         }
-        setToken(res.data.token)
-        company.setCompany(res.data.company)
-        router.push("/verification")
+
+        setLoading(false)
+        return
+      }
+
+      setToken(res.data.token)
+      company.setCompany(res.data.company)
+      router.push("/verification")
+
     } catch (err: any) {
-        console.error("Erro no login:", err)
-        alert("Erro: " + (err.response?.data?.message || err.message || "erro desconhecido"))
+      console.error("Erro no login:", err)
+      alert("Erro: " + (err.response?.data?.message || err.message || "erro desconhecido"))
+      setLoading(false)
     }
   }
 
@@ -92,6 +97,7 @@ const Lognin = () => {
           </Button>
         </CardAction>
       </CardHeader>
+
       <form onSubmit={handleSubmit}>
         <CardContent className="relative">
           <div className="flex flex-col gap-2">
@@ -110,6 +116,7 @@ const Lognin = () => {
                   <p key={i} className="text-red-500 text-xs">{e}</p>
                 ))}
             </div>
+
             <div className="flex flex-col gap-2">
               <Label htmlFor="password">Senha</Label>
               <Input
@@ -138,9 +145,17 @@ const Lognin = () => {
             </div>
           )}
         </CardContent>
+
         <CardFooter>
-          <Button className="cursor-pointer my-4" type="submit">
-            Entrar
+          <Button
+            className="cursor-pointer my-4 flex items-center gap-2"
+            type="submit"
+            disabled={loading}
+          >
+            {loading && (
+              <span className="animate-spin border-2 border-t-transparent rounded-full w-4 h-4"></span>
+            )}
+            {loading ? "Entrando..." : "Entrar"}
           </Button>
         </CardFooter>
       </form>
