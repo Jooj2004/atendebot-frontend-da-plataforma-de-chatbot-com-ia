@@ -154,15 +154,7 @@ const Deshboard = () => {
                             >
                                 Copiar código do widget
                             </Button>
-
-                            <div className="mt-4 border border-gray-300 rounded-md overflow-hidden bg-white">
-                                <iframe
-                                    src={link}
-                                    style={{ width: "100%", height: "300px", border: "none" }}
-                                />
-                            </div>
                         </div>
-                        {/* 🔼 FIM DO WIDGET */}
 
                     </div>
 
